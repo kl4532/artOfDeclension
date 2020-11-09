@@ -1,6 +1,16 @@
-<div class="cases">
-  <div *ngFor="let c of cases">
-    <label for="">{{ c.name }}</label>
-    <input (change)="filterQuestions()" [(ngModel)]="c.selected" type="checkbox">
+<div class="cases" *ngFor="let c of cases">
+  <label for="">{{ c.name }}</label>
+  <input (change)="filterQuestions()" [(ngModel)]="c.selected" type="checkbox">
+</div>
+
+<div *ngIf="currentQuestion" class="question">
+  {{ currentQuestion.question }}
+</div>
+
+<div *ngIf="drawedAnswers" class="answers">
+  <div *ngFor="let a of drawedAnswers">
+      <button (click)="checkAnswer(a)">{{ a }}</button>
   </div>
 </div>
+
+<h3>{{ result }}</h3>

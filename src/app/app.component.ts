@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Case} from "./models/Case";
+import {Question} from './models/Question';
 
 class Questions {
 }
@@ -13,7 +14,11 @@ class Questions {
 
 export class AppComponent implements OnInit {
   data: any = null;
-  questions: Questions[] = [];
+  questions: Question[] = [];
+  answers: string[];
+  drawedAnswers: string[] = [];
+  currentQuestion: Question;
+  result: string = '';
   cases: Case[] = [
     {
       name: "Nominativ",
@@ -28,7 +33,7 @@ export class AppComponent implements OnInit {
       selected: true
     },
     {
-      name: "Dativ",
+      name: "Akkusativ",
       selected: true
     },
   ]
@@ -41,18 +46,68 @@ export class AppComponent implements OnInit {
       this.data = data;
       console.log(this.data);
       this.filterQuestions();
+
+      this.drawQuestion();
+
+      this.drawAnswers();
     });
+  }
+
+  initQuestion() {
+    this.filterQuestions();
+
+    this.drawQuestion();
+
+    this.drawAnswers();
   }
 
   filterQuestions() {
     this.questions = [];
+    this.answers = [];
     for (let c of this.cases) {
       if(c.selected) {
-        this.questions.push(this.data.questions[c.name.toLocaleLowerCase()]);
+        const cName = c.name.toLocaleLowerCase();
+        this.questions.push(this.data.questions[cName]);
+        this.answers.push(this.data.articles[cName]);
       }
     }
     this.questions = this.questions.flat();
-    console.log(this.questions);
+    this.answers = this.answers.flat();
   }
+
+  drawAnswers() {
+    this.drawedAnswers = [];
+    const correctAnswer = this.currentQuestion.answer;
+    while (this.drawedAnswers.length < 3){
+      const drawed = this.answers[this.getRandomInt(0, this.answers.length - 1)];
+      if (this.drawedAnswers.indexOf(drawed) === -1 && drawed !== this.currentQuestion.answer) {
+        this.drawedAnswers.push(drawed);
+      }
+    }
+    console.log(this.drawedAnswers);
+    this.drawedAnswers.splice(this.getRandomInt(0, 2), 0, correctAnswer);
+    this.drawedAnswers.join();
+  }
+
+  drawQuestion() {
+    const index = this.getRandomInt(0, this.questions.length - 1);
+    this.currentQuestion = this.questions[index];
+  }
+
+  checkAnswer(a) {
+    if(this.currentQuestion.answer === a) {
+      this.result = 'Richtig!';
+    } else {
+      this.result = 'Falsh...';
+    }
+    this.initQuestion();
+  }
+
+  getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+  }
+
 
 }
