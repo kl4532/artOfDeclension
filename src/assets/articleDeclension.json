@@ -1,0 +1,83 @@
+{
+  "questions": {
+    "nominativ": [
+      {
+        "question": "Nominativ Maskulin",
+        "answer": "der"
+      },
+      {
+        "question": "Nominativ Faminin",
+        "answer": "die"
+      },
+      {
+        "question": "Nominativ Neutral",
+        "answer": "das"
+      },
+      {
+        "question": "Nominativ Plural",
+        "answer": "die"
+      }
+    ],
+    "genitiv": [
+      {
+        "question": "Genitiv Maskulin",
+        "answer": "des"
+      },
+      {
+        "question": "Genitiv Faminin",
+        "answer": "der"
+      },
+      {
+        "question": "Genitiv Neutral",
+        "answer": "des"
+      },
+      {
+        "question": "Genitiv Plural",
+        "answer": "der"
+      }
+    ],
+    "dativ": [
+      {
+        "question": "Dativ Maskulin",
+        "answer": "dem"
+      },
+      {
+        "question": "Dativ Faminin",
+        "answer": "der"
+      },
+      {
+        "question": "Dativ Neutral",
+        "answer": "dem"
+      },
+      {
+        "question": "Dativ Plural",
+        "answer": "den"
+      }
+    ],
+    "akkusativ": [
+      {
+        "question": "Akkusativ Maskulin",
+        "answer": "den"
+      },
+      {
+        "question": "Akkusativ Faminin",
+        "answer": "die"
+      },
+      {
+        "question": "Akkusativ Neutral",
+        "answer": "das"
+      },
+      {
+        "question": "Akkusativ Plural",
+        "answer": "die"
+      }
+    ]
+  },
+
+  "articles": {
+    "nominativ": ["der", "die", "das", "die"],
+    "genitiv": ["des", "der", "des", "der"],
+    "dativ": ["dem", "der", "dem", "den"],
+    "akkusativ": ["den", "die", "das", "die"]
+  }
+}

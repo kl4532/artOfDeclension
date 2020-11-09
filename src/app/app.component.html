@@ -1,0 +1,6 @@
+<div class="cases">
+  <div *ngFor="let c of cases">
+    <label for="">{{ c.name }}</label>
+    <input (change)="filterQuestions()" [(ngModel)]="c.selected" type="checkbox">
+  </div>
+</div>
