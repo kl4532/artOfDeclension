@@ -17,8 +17,10 @@ export class AppComponent implements OnInit {
   questions: Question[] = [];
   answers: string[];
   drawedAnswers: string[] = [];
+  timesUp: boolean = false;
   currentQuestion: Question;
   result: string = '';
+  start = false;
   cases: Case[] = [
     {
       name: "Nominativ",
@@ -36,7 +38,8 @@ export class AppComponent implements OnInit {
       name: "Akkusativ",
       selected: true
     },
-  ]
+  ];
+  score: number =  0;
 
   constructor(private http: HttpClient) {
   }
@@ -44,13 +47,14 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.http.get('../assets/articleDeclension.json').subscribe(data => {
       this.data = data;
-      console.log(this.data);
-      this.filterQuestions();
-
-      this.drawQuestion();
-
-      this.drawAnswers();
     });
+  }
+
+  started() {
+    this.initQuestion();
+    this.start = true;
+    this.timesUp = false;
+    this.score = 0;
   }
 
   initQuestion() {
@@ -97,9 +101,12 @@ export class AppComponent implements OnInit {
   checkAnswer(a) {
     if(this.currentQuestion.answer === a) {
       this.result = 'Richtig!';
+      this.score++;
     } else {
       this.result = 'Falsh...';
+      this.score--;
     }
+    console.log('score', this.score);
     this.initQuestion();
   }
 

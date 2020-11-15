@@ -1,6 +1,6 @@
 <div class="cases" *ngFor="let c of cases">
   <label for="">{{ c.name }}</label>
-  <input (change)="filterQuestions()" [(ngModel)]="c.selected" type="checkbox">
+  <input (change)="initQuestion()" [(ngModel)]="c.selected" type="checkbox">
 </div>
 
 <div *ngIf="currentQuestion" class="question">
@@ -9,8 +9,10 @@
 
 <div *ngIf="drawedAnswers" class="answers">
   <div *ngFor="let a of drawedAnswers">
-      <button (click)="checkAnswer(a)">{{ a }}</button>
+      <button [disabled]="timesUp" (click)="checkAnswer(a)">{{ a }}</button>
   </div>
 </div>
-
+<app-progress-bar (finished)="timesUp=$event; start = false" [initTime]="20" [start]="start"></app-progress-bar>
 <h3>{{ result }}</h3>
+<button (click)="started()">Trigger start</button>
+<div *ngIf="timesUp"> Your score: {{score}}</div>
