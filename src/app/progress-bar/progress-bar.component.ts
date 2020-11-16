@@ -33,7 +33,7 @@ export class ProgressBarComponent implements OnInit{
       return;
     }
 
-    this.time  = this.time - 0.1;
+    this.time  = this.time - 0.01;
     const procent = this.time * 100 /this.initTime;
     this.setProgress(procent);
   }
@@ -42,7 +42,7 @@ export class ProgressBarComponent implements OnInit{
     this.inner = this.elem.nativeElement.querySelector('.inner');
     this.time = this.initTime;
     this.setProgress(100);
-    this.interval = setInterval( () => this.process(),100);
+    this.interval = setInterval( () => this.process(),10);
   }
 
   setProgress(proc: number) {

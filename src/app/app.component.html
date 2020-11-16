@@ -1,18 +1,30 @@
-<div class="cases" *ngFor="let c of cases">
-  <label for="">{{ c.name }}</label>
-  <input (change)="initQuestion()" [(ngModel)]="c.selected" type="checkbox">
-</div>
+<div class="app-container">
 
-<div *ngIf="currentQuestion" class="question">
-  {{ currentQuestion.question }}
-</div>
-
-<div *ngIf="drawedAnswers" class="answers">
-  <div *ngFor="let a of drawedAnswers">
-      <button [disabled]="timesUp" (click)="checkAnswer(a)">{{ a }}</button>
+  <div class="cases">
+    <div *ngFor="let c of cases">
+      <label for="">{{ c.name }}</label>
+      <input (change)="initQuestion()" [(ngModel)]="c.selected" type="checkbox">
+    </div>
   </div>
+
+  <app-progress-bar (finished)="timesUp=$event; start = false" [initTime]="20" [start]="start"></app-progress-bar>
+
+  <div *ngIf="currentQuestion" class="question">
+    <h2>{{ currentQuestion.question }}</h2>
+  </div>
+
+  <div *ngIf="drawedAnswers" class="answers">
+    <div *ngFor="let a of drawedAnswers">
+      <button class="answer" [disabled]="timesUp" (click)="checkAnswer(a)">{{ a }}</button>
+    </div>
+  </div>
+
+  <div class="info">
+    <h3>{{ result }}</h3>
+    <button class="btn-start" (click)="started()" [hidden]="start">Start</button>
+    <h3  *ngIf="timesUp">Your score: {{score}}</h3>
+
+  </div>
+
+
 </div>
-<app-progress-bar (finished)="timesUp=$event; start = false" [initTime]="20" [start]="start"></app-progress-bar>
-<h3>{{ result }}</h3>
-<button (click)="started()">Trigger start</button>
-<div *ngIf="timesUp"> Your score: {{score}}</div>

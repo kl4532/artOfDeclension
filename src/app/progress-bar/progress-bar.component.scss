@@ -1,12 +1,12 @@
 .outer {
   background-color: black;
-  border-radius: 13px; /* (height of inner div) / 2 + padding */
+  //border-radius: 13px; /* (height of inner div) / 2 + padding */
   padding: 3px;
 
   .inner {
-    background-color: #2dd800;
+    background-color: #d7c500;
     width: 100%; /* Adjust with JavaScript */
-    height: 20px;
-    border-radius: 10px;
+    height: 10px;
+    border-radius: 0px 10px 10px 0px;
   }
 }
