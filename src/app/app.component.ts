@@ -1,10 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Case} from "./models/Case";
+import {HttpClient} from '@angular/common/http';
+import {Case} from './models/Case';
 import {Question} from './models/Question';
-
-class Questions {
-}
 
 @Component({
   selector: 'app-root',
@@ -20,7 +17,7 @@ export class AppComponent implements OnInit {
   timesUp: boolean = false;
   currentQuestion: Question;
   result: string = '';
-  start = false;
+  started = false;
   cases: Case[] = [
     {
       name: "Nominativ",
@@ -39,7 +36,11 @@ export class AppComponent implements OnInit {
       selected: true
     },
   ];
-  score: number =  0;
+  numOfSelectedCases: number;
+  score = {
+    right: 0,
+    wrong: 0
+  };
 
   constructor(private http: HttpClient) {
   }
@@ -50,14 +51,20 @@ export class AppComponent implements OnInit {
     });
   }
 
-  started() {
-    this.initQuestion();
-    this.start = true;
+  isStarted() {
+    this.initQuestions();
+    this.started = true;
     this.timesUp = false;
-    this.score = 0;
+    this.result = '';
   }
 
-  initQuestion() {
+  initQuestions() {
+    this.numOfSelectedCases = 0;
+    this.cases.forEach(c=> c.selected ? this.numOfSelectedCases++ : null);
+    if (this.numOfSelectedCases < 2) {
+      return;
+    }
+
     this.filterQuestions();
 
     this.drawQuestion();
@@ -69,7 +76,7 @@ export class AppComponent implements OnInit {
     this.questions = [];
     this.answers = [];
     for (let c of this.cases) {
-      if(c.selected) {
+      if (c.selected) {
         const cName = c.name.toLocaleLowerCase();
         this.questions.push(this.data.questions[cName]);
         this.answers.push(this.data.articles[cName]);
@@ -82,13 +89,15 @@ export class AppComponent implements OnInit {
   drawAnswers() {
     this.drawedAnswers = [];
     const correctAnswer = this.currentQuestion.answer;
-    while (this.drawedAnswers.length < 3){
+    const numOfPossibleAnswers = this.numOfSelectedCases < 3 ? 3 : 4;
+
+    while (this.drawedAnswers.length < numOfPossibleAnswers - 1){
       const drawed = this.answers[this.getRandomInt(0, this.answers.length - 1)];
       if (this.drawedAnswers.indexOf(drawed) === -1 && drawed !== this.currentQuestion.answer) {
         this.drawedAnswers.push(drawed);
       }
     }
-    console.log(this.drawedAnswers);
+    // add correct answer to answers randomly
     this.drawedAnswers.splice(this.getRandomInt(0, 2), 0, correctAnswer);
     this.drawedAnswers.join();
   }
@@ -101,13 +110,12 @@ export class AppComponent implements OnInit {
   checkAnswer(a) {
     if(this.currentQuestion.answer === a) {
       this.result = 'Richtig!';
-      this.score++;
+      this.score.right++;
     } else {
       this.result = 'Falsh...';
-      this.score--;
+      this.score.wrong++;
     }
-    console.log('score', this.score);
-    this.initQuestion();
+    this.initQuestions();
   }
 
   getRandomInt(min, max) {

@@ -3,27 +3,27 @@
   <div class="cases">
     <div *ngFor="let c of cases">
       <label for="">{{ c.name }}</label>
-      <input (change)="initQuestion()" [(ngModel)]="c.selected" type="checkbox">
+      <input (change)="initQuestions()" [(ngModel)]="c.selected" type="checkbox" [disabled]="started">
     </div>
   </div>
 
-  <app-progress-bar (finished)="timesUp=$event; start = false" [initTime]="20" [start]="start"></app-progress-bar>
+  <app-progress-bar (finished)="timesUp=$event; started = false" [initTime]="20" [start]="started"></app-progress-bar>
 
-  <div *ngIf="currentQuestion" class="question">
+  <div *ngIf="started" class="question">
     <h2>{{ currentQuestion.question }}</h2>
   </div>
 
-  <div *ngIf="drawedAnswers" class="answers">
+  <div *ngIf="started" class="answers">
     <div *ngFor="let a of drawedAnswers">
       <button class="answer" [disabled]="timesUp" (click)="checkAnswer(a)">{{ a }}</button>
     </div>
   </div>
 
   <div class="info">
-    <h3>{{ result }}</h3>
-    <button class="btn-start" (click)="started()" [hidden]="start">Start</button>
-    <h3  *ngIf="timesUp">Your score: {{score}}</h3>
-
+    <h3 *ngIf="started">{{ result }}</h3>
+    <button class="btn-start" (click)="isStarted()" [hidden]="started" [disabled]="this.numOfSelectedCases < 2">Start</button>
+    <h3  *ngIf="timesUp">Your score: {{score.right - score.wrong}}(R:{{score.right}}/W:{{score.wrong}})</h3>
+    <h2 *ngIf="numOfSelectedCases < 2">Please select at least two cases!</h2>
   </div>
 
 
