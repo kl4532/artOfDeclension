@@ -11,7 +11,7 @@ export class ProgressBarComponent implements OnInit{
   inner: HTMLElement;
   interval: any;
   time: number;
-  @Input() initTime: number;
+  @Input() timeout: number;
   @Output() finished = new EventEmitter<boolean>();
 
   @Input()
@@ -34,13 +34,13 @@ export class ProgressBarComponent implements OnInit{
     }
 
     this.time  = this.time - 0.01;
-    const procent = this.time * 100 /this.initTime;
+    const procent = this.time * 100 /this.timeout;
     this.setProgress(procent);
   }
 
   startProgress() {
     this.inner = this.elem.nativeElement.querySelector('.inner');
-    this.time = this.initTime;
+    this.time = this.timeout;
     this.setProgress(100);
     this.interval = setInterval( () => this.process(),10);
   }
