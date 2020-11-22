@@ -6,17 +6,19 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import {FormsModule} from "@angular/forms";
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
+import { ChipsComponent } from './chips/chips.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProgressBarComponent,
+    ChipsComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
