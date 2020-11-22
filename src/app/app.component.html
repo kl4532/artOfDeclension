@@ -1,13 +1,12 @@
 <div class="app-container">
 
   <div class="cases">
-    <div *ngFor="let c of cases">
-      <label for="">{{ c.name }}</label>
-      <input (change)="initQuestions()" [(ngModel)]="c.selected" type="checkbox" [disabled]="started">
+    <div>
+      <app-chips (click)="refreshCasesSelection()" [disabled]="started" [options]="cases"></app-chips>
     </div>
   </div>
 
-  <app-progress-bar (finished)="timesUp=$event; started = false" [initTime]="20" [start]="started"></app-progress-bar>
+  <app-progress-bar *ngIf="started" (finished)="timesUp=$event; started = false" [timeout]="20" [start]="started"></app-progress-bar>
 
   <div *ngIf="started" class="question">
     <h2>{{ currentQuestion.question }}</h2>
@@ -20,10 +19,17 @@
   </div>
 
   <div class="info">
-    <h3 *ngIf="started">{{ result }}</h3>
-    <button class="btn-start" (click)="isStarted()" [hidden]="started" [disabled]="this.numOfSelectedCases < 2">Start</button>
-    <h3  *ngIf="timesUp">Your score: {{score.right - score.wrong}}(R:{{score.right}}/W:{{score.wrong}})</h3>
-    <h2 *ngIf="numOfSelectedCases < 2">Please select at least two cases!</h2>
+    <div *ngIf="started">
+      <h3 [style.color]="'green'" *ngIf="result==='r'">Richtig!</h3>
+      <h3 [style.color]="'red'" *ngIf="result==='f'">Falsch...</h3>
+    </div>
+    <button class="btn-start" (click)="isStarted()" [hidden]="started" [disabled]="this.numOfSelectedCases === 0">Start</button>
+    <div *ngIf="timesUp">
+      <h3  *ngIf="timesUp">Your score: {{score.right - score.wrong}}</h3>
+      <p>Right answers: {{score.right}}</p>
+      <p>Wrong answers: {{score.wrong}}</p>
+    </div>
+    <h2 [style.color]="'red'" *ngIf="numOfSelectedCases === 0 ">Please select at least one case!</h2>
   </div>
 
 

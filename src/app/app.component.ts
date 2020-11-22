@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Case} from './models/Case';
+import {Chip} from './models/Chip';
 import {Question} from './models/Question';
 
 @Component({
@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
   currentQuestion: Question;
   result: string = '';
   started = false;
-  cases: Case[] = [
+  cases: Chip[] = [
     {
       name: "Nominativ",
       selected: true
@@ -59,17 +59,17 @@ export class AppComponent implements OnInit {
   }
 
   initQuestions() {
-    this.numOfSelectedCases = 0;
-    this.cases.forEach(c=> c.selected ? this.numOfSelectedCases++ : null);
-    if (this.numOfSelectedCases < 2) {
-      return;
-    }
 
     this.filterQuestions();
 
     this.drawQuestion();
 
     this.drawAnswers();
+  }
+
+  refreshCasesSelection() {
+    this.numOfSelectedCases = 0;
+    this.cases.forEach( c => c.selected ? this.numOfSelectedCases++ : null);
   }
 
   filterQuestions() {
@@ -90,8 +90,10 @@ export class AppComponent implements OnInit {
     this.drawedAnswers = [];
     const correctAnswer = this.currentQuestion.answer;
     const numOfPossibleAnswers = this.numOfSelectedCases < 3 ? 3 : 4;
+    let count = 0;
 
-    while (this.drawedAnswers.length < numOfPossibleAnswers - 1){
+    while (this.drawedAnswers.length < numOfPossibleAnswers - 1 && count<30){
+      count++;
       const drawed = this.answers[this.getRandomInt(0, this.answers.length - 1)];
       if (this.drawedAnswers.indexOf(drawed) === -1 && drawed !== this.currentQuestion.answer) {
         this.drawedAnswers.push(drawed);
@@ -103,16 +105,16 @@ export class AppComponent implements OnInit {
   }
 
   drawQuestion() {
-    const index = this.getRandomInt(0, this.questions.length - 1);
+    const index = this.getRandomInt(0, this.questions.length);
     this.currentQuestion = this.questions[index];
   }
 
   checkAnswer(a) {
     if(this.currentQuestion.answer === a) {
-      this.result = 'Richtig!';
+      this.result = 'r';
       this.score.right++;
     } else {
-      this.result = 'Falsh...';
+      this.result = 'f';
       this.score.wrong++;
     }
     this.initQuestions();
@@ -123,6 +125,5 @@ export class AppComponent implements OnInit {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
   }
-
 
 }
