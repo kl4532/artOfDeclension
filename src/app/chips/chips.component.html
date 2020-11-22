@@ -1,0 +1,7 @@
+<div class="container">
+  <span *ngFor="let option of options"
+        (click)="!disabled ? option.selected = !option.selected : null"
+        class="chip"
+        [ngClass]="{'active': option.selected, 'disabled': disabled}"
+  >{{option.name}}</span>
+</div>

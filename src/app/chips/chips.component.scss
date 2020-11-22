@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+}
+.chip {
+  padding: 5px 10px;
+  border-radius: 10px;
+  background-color: aliceblue;
+  border: 0.5px solid #151515;
+  margin: 0px 2px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.active {
+  background-color: #89ff65;
+  font-weight: bold;
+}
+
+.disabled {
+  opacity: 0.5;
+}

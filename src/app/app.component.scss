@@ -27,10 +27,15 @@
   flex-direction: column;
 
   .btn-start {
-    background-color: #2de100;
+    background-color: #49af30;
+    color: cornsilk;
+    font-weight: bold;
     width: 200px;
     height: 50px;
     margin: 10px;
+    &:disabled {
+      opacity: 0.5;
+    }
   }
 
   .score {
