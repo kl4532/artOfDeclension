@@ -37,11 +37,7 @@ export class AppComponent implements OnInit {
     },
   ];
   numOfSelectedCases: number;
-  score = {
-    right: 0,
-    wrong: 0
-  };
-
+  score: any;
   constructor(private http: HttpClient) {
   }
 
@@ -49,9 +45,15 @@ export class AppComponent implements OnInit {
     this.http.get('../assets/articleDeclension.json').subscribe(data => {
       this.data = data;
     });
+    this.score = {
+      right: 0,
+      wrong: 0
+    };
   }
 
   isStarted() {
+    this.score.right = 0;
+    this.score.wrong = 0;
     this.initQuestions();
     this.started = true;
     this.timesUp = false;
@@ -59,7 +61,6 @@ export class AppComponent implements OnInit {
   }
 
   initQuestions() {
-
     this.filterQuestions();
 
     this.drawQuestion();
